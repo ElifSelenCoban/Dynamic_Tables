@@ -1,0 +1,48 @@
+﻿
+@model System.Data.DataTable
+@using System.Data
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@Html.ActionLink("Create New Record", "Create")
+<div>
+    @if (Model != null)
+    {<table class="table">
+            <thead>
+                <tr>
+                    @foreach (System.Data.DataColumn col in Model.Columns)
+                    {
+                        <th>
+                            @col.Caption
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (System.Data.DataRow row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (var cell in row.ItemArray)
+                        {
+                            if (cell != null)
+                            {
+                                <td>
+                                    @cell.ToString()
+                                </td>
+                            }
+                        }
+                        <td>
+                            @Html.ActionLink("Edit Record", "EditRecord", new { id = row[0] }) |<input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "Home",new { id = row[0] })'" />
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+</div>

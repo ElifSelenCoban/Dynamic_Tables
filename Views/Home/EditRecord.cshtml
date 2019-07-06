@@ -1,0 +1,114 @@
+﻿
+@model System.Data.DataTable
+
+
+@using (Html.BeginForm("EditRecord", "Home", FormMethod.Post))
+{
+
+    foreach (System.Data.DataRow row in Model.Rows)
+    {
+
+
+        <tr>
+            @foreach (System.Data.DataColumn col in Model.Columns)
+            {
+
+                foreach (KeyValuePair<string, string> entry in ViewBag.foreigncolumn)
+                {
+                    if (col.ColumnName.ToString() == entry.Key)
+                    {
+                        @Html.Label(col.ColumnName + "")
+                        DynamicTables.Controllers.HomeController s = new DynamicTables.Controllers.HomeController();
+                        @Html.DropDownList(col.ColumnName, s.GenelSelectList(Convert.ToString(entry.Value)), "- Seçiniz-",
+                                           new { @class = "form-control", @style = "width:100% " })//homecontrollerdaki genelselectlist methodu parametresi verilerek dropdownlist doldurulur
+                    }
+
+
+                }
+
+
+                if (row[col].GetType() == typeof(DateTime) && !ViewBag.foreigncolumn.ContainsKey(col.ColumnName.ToString()))
+                {
+                    <td>
+                        @Html.Label(col.Caption)
+
+                        <input type="date" name="@col.Caption" value="@Convert.ToDateTime(@row[col.ColumnName]).Date.ToString("yyyy-MM-dd")" min="1940-01-01" max=@System.DateTime.Now ,new { class="form-control" } />
+
+                    </td>
+                }
+                else if (row[col].GetType() == typeof(int) && !ViewBag.foreigncolumn.ContainsKey(col.ColumnName.ToString()) && ViewBag.prikeylist.Contains(col.Caption.ToString()))
+                {
+                    <td>
+
+                        @Html.Label(col.Caption)
+
+                        @Html.TextBox(col.Caption, @row[col.ColumnName].ToString(), new { @class = "form-control", @readonly = true })
+                    </td>
+                }
+
+                else if (row[col].GetType() == typeof(String)  && !ViewBag.foreigncolumn.ContainsKey(col.ColumnName.ToString()))
+                {
+                    <td>
+
+                        @Html.Label(col.Caption)
+
+                        @Html.TextBox(col.Caption, @row[col.ColumnName].ToString(), new { @class = "form-control" })
+                    </td>
+                }
+
+            }
+
+
+
+        </tr>
+
+        <td>
+            <br />
+
+            <input type="submit" value="Save" />
+        </td>
+    }
+    @ViewBag.Hata
+
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $("#CountryId").change(function () {
+                var id=$("#CountryId").val();
+                $("#CityId").empty();
+                console.log(id)
+                $.ajax({
+
+                url: '@Url.Action("getCity", "Home")',
+
+                type: 'GET',
+
+                data: { 'id': id },
+
+                success: function (data) {
+
+                    $('#CityId').append('<option selected="selected" value="0">Please select</option>');
+                    $.each(data['result'], function (index, value) {
+                        $('#CityId').append('<option value="' + value.Value + '">' + value.Text + '</option>');
+                    });
+                },
+                error: function (result) {
+
+                    console.log(result,'Bir Sorun Oluştu Lütfen Yeniden Deneyiniz');
+
+                }
+
+            });
+
+
+
+            })
+        });
+
+</script>

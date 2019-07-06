@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DOSModelStoreContainer" CdmEntityContainer="DOSEntities">
+    <EntitySetMapping Name="Details">
+      <EntityTypeMapping TypeName="DOSModel.Details">
+        <MappingFragment StoreEntitySet="Details">
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rehbers">
+      <EntityTypeMapping TypeName="DOSModel.Rehbers">
+        <MappingFragment StoreEntitySet="Rehbers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Student">
+      <EntityTypeMapping TypeName="DOSModel.Student">
+        <MappingFragment StoreEntitySet="Student">
+          <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AddRecord" FunctionName="DOSModel.Store.AddRecord" />
+    <FunctionImportMapping FunctionImportName="DeleteRecord" FunctionName="DOSModel.Store.DeleteRecord" />
+    <FunctionImportMapping FunctionImportName="DynamicTables" FunctionName="DOSModel.Store.DynamicTables" />
+    <FunctionImportMapping FunctionImportName="GetTableNames" FunctionName="DOSModel.Store.GetTableNames" />
+    <FunctionImportMapping FunctionImportName="ListRecord" FunctionName="DOSModel.Store.ListRecord">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="DOSModel.ListRecord_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateRecord" FunctionName="DOSModel.Store.UpdateRecord" />
+  </EntityContainerMapping>
+</Mapping>

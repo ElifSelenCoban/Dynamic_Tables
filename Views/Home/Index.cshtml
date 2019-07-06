@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DynamicTables.Models.Tableproperty>
+<h3>@TempData["Hata"]</h3>
+<h2>Table List </h2>
+
+<table class="table">
+    <tr></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.TABLE_NAME
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { Table_name = item.TABLE_NAME })
+            </td>
+        </tr>
+
+    }
+
+</table>

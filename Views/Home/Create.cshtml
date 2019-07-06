@@ -1,0 +1,104 @@
+﻿@model System.Data.DataTable
+@{
+    /**/
+
+    ViewBag.Title = "Create";
+}
+@ViewBag.Hata
+@using (Html.BeginForm("Create", "Home", FormMethod.Post))
+{
+    foreach (System.Data.DataRow row in Model.Rows)
+
+    {
+        if (ViewBag.foreigncolumn != null && ViewBag.foreigncolumn.ContainsKey(row["column_name"].ToString()))
+        {
+            if (ViewBag.foreigncolumn.ContainsKey(row["column_name"].ToString()))
+
+            {
+
+                @Html.Label(row["column_name"].ToString() + "")
+                DynamicTables.Controllers.HomeController s = new DynamicTables.Controllers.HomeController();
+                @Html.DropDownList(row["column_name"].ToString(), s.GenelSelectList(Convert.ToString(row["referenced_object"])),
+               "- Seçiniz-", new { @class = "form-control", @style = "width:100% " })
+
+            }
+        }
+
+        else if (ViewBag.prikeylist.Contains(row["column_name"].ToString()))
+        {
+
+            @Html.Label(row["column_name"].ToString())
+
+            @Html.TextBox(row["column_name"].ToString(), null, new { @class = "form-control", @readonly = true })
+
+        }
+
+        else if (row["type_name"].ToString() == "nvarchar" || row["type_name"].ToString() == "int")
+        {
+
+
+            @Html.Label(row["column_name"].ToString())
+            @Html.TextBox(row["column_name"].ToString(), null, new { @class = "form-control" })
+
+
+
+        }
+
+        else if (row["type_name"].ToString() == "date")
+        {
+            @Html.Label(row["column_name"].ToString())
+
+            <input type="date" name=@row["column_name"].ToString() value=@System.DateTime.Now.Date.ToString("yyyy-MM-dd") max=@System.DateTime.Now min="1990-01-01" ,new { class="form-control" } />
+
+
+        }
+    }
+
+    <br />
+
+    <input type="submit" value="Create" />
+
+}
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $("#CountryId").change(function () {
+                var id=$("#CountryId").val();
+                $("#CityId").empty();
+                console.log(id)
+                $.ajax({
+
+                url: '@Url.Action("getCity", "Home")',
+
+                type: 'GET',
+
+                data: { 'id': id },
+
+                success: function (data) {
+
+                    $('#CityId').append('<option selected="selected" value="0">Please select</option>');
+                    $.each(data['result'], function (index, value) {
+                        $('#CityId').append('<option value="' + value.Value + '">' + value.Text + '</option>');
+                    });
+                },
+                error: function (result) {
+
+                    console.log(result,'Bir Sorun Oluştu Lütfen Yeniden Deneyiniz');
+
+                }
+
+            });
+
+
+
+            })
+        });
+
+</script>
+
